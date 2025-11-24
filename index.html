@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Com.bot | AI Unified Business Communication Platform</title>
+    <meta
+      name="description"
+      content="Connect with customers across all channels through a single, powerful platform. Automate conversations, boost sales, and deliver exceptional support."
+    />
+
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Inter"', "system-ui", "sans-serif"],
+              display: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+            },
+            colors: {
+              // "Electric Indigo" Bot Palette - Tech-focused, Elegant, High-Trust
+              brand: {
+                50: "#eef2ff",
+                100: "#e0e7ff",
+                200: "#c7d2fe",
+                300: "#a5b4fc",
+                400: "#818cf8",
+                500: "#6366f1", // Vibrant Bot Blue
+                600: "#4f46e5", // Primary Action
+                700: "#4338ca",
+                800: "#3730a3",
+                900: "#312e81", // Deep Navy
+                950: "#1e1b4b", // Midnight
+              },
+              slate: {
+                25: "#F9FAFB",
+                50: "#F8FAFC",
+                100: "#F1F5F9",
+                200: "#E2E8F0",
+                300: "#CBD5E1",
+                400: "#94A3B8",
+                500: "#64748B",
+                600: "#475569",
+                800: "#1E293B",
+                900: "#0F172A",
+              },
+            },
+            boxShadow: {
+              subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+              card: "0 10px 30px -10px rgba(79, 70, 229, 0.08)",
+              "card-hover": "0 20px 40px -10px rgba(79, 70, 229, 0.15)",
+              glow: "0 0 60px -15px rgba(79, 70, 229, 0.3)",
+              button: "0 4px 14px 0 rgba(79, 70, 229, 0.39)",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "float-delayed": "float 6s ease-in-out 3s infinite",
+              "pulse-soft":
+                "pulse-soft 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              shimmer: "shimmer 2s linear infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              "pulse-soft": {
+                "0%, 100%": { opacity: 1 },
+                "50%": { opacity: 0.7 },
+              },
+              shimmer: {
+                from: { backgroundPosition: "0 0" },
+                to: { backgroundPosition: "-200% 0" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        letter-spacing: -0.01em;
+      }
+
+      /* Dynamic Backgrounds */
+      .bg-grid-pattern {
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            rgba(99, 102, 241, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(99, 102, 241, 0.05) 1px,
+            transparent 1px
+          );
+      }
+
+      .bg-aurora {
+        background: radial-gradient(
+            circle at 50% 0%,
+            rgba(99, 102, 241, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 0% 50%,
+            rgba(165, 180, 252, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Glassmorphism */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      /* Reveal Animation Classes */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Staggered Delays */
+      .delay-100 {
+        transition-delay: 100ms;
+      }
+      .delay-200 {
+        transition-delay: 200ms;
+      }
+      .delay-300 {
+        transition-delay: 300ms;
+      }
+
+      /* Button Shine Effect */
+      .btn-shine {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-shine::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      .btn-shine:hover::after {
+        left: 100%;
+      }
+
+      /* View Management */
+      .view-section {
+        display: none;
+        animation: fadeIn 0.4s ease-out;
+      }
+      .view-section.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="font-sans text-slate-500 bg-slate-50 selection:bg-brand-500 selection:text-white"
+  >
+    <!-- Navbar -->
+    <header
+      class="fixed w-full top-0 z-50 glass-nav transition-all duration-300 shadow-sm"
+    >
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Brand -->
+          <div
+            class="flex items-center gap-3 cursor-pointer group"
+            onclick="navigateTo('home')"
+          >
+            <img
+              src="logo.webp"
+              alt="Com.bot Logo"
+              class="h-10 w-auto group-hover:scale-105 transition-transform duration-300"
+            />
+
+          </div>
+
+          <!-- Nav Links (Pill Design) -->
+          <nav
+            class="hidden md:flex gap-1 items-center p-1.5 rounded-full bg-white/60 border border-white/50 shadow-sm backdrop-blur-md"
+          >
+            <button
+              onclick="navigateTo('home')"
+              class="nav-item px-5 py-2 rounded-full text-sm font-medium transition-all active-nav text-slate-600 hover:bg-white"
+              id="nav-home"
+            >
+              Home
+            </button>
+            <button
+              onclick="navigateTo('home', 'features')"
+              class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+            >
+              Features
+            </button>
+            <button
+              onclick="navigateTo('home', 'solutions')"
+              class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+            >
+              Use Cases
+            </button>
+            <button
+              onclick="navigateTo('pricing')"
+              class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+              id="nav-pricing"
+            >
+              Pricing
+            </button>
+            <button
+              onclick="navigateTo('home', 'contact')"
+              class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+            >
+              Contact
+            </button>
+          </nav>
+
+          <!-- Actions -->
+          <div class="hidden md:flex items-center gap-4">
+            <a
+              href="#"
+              class="btn-shine bg-slate-900 text-white px-6 py-3 rounded-full hover:bg-brand-600 transition-all duration-300 font-semibold text-sm shadow-button flex items-center gap-2 group"
+            >
+              Get Started
+              <i
+                class="fa-solid fa-arrow-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"
+              ></i>
+            </a>
+          </div>
+
+          <!-- Mobile Menu Icon -->
+          <div class="md:hidden">
+            <button
+              class="text-slate-900 p-2"
+              onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+            >
+              <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute w-full bg-white border-b border-gray-100 shadow-xl"
+      >
+        <div class="px-6 py-6 space-y-4">
+          <button
+            onclick="navigateTo('home'); toggleMobileMenu()"
+            class="block text-brand-900 font-medium w-full text-left text-lg"
+          >
+            Home
+          </button>
+          <button
+            onclick="navigateTo('pricing'); toggleMobileMenu()"
+            class="block text-slate-600 font-medium w-full text-left text-lg"
+          >
+            Pricing
+          </button>
+          <button
+            onclick="navigateTo('home', 'contact'); toggleMobileMenu()"
+            class="block text-slate-600 font-medium w-full text-left text-lg"
+          >
+            Contact
+          </button>
+          <div class="pt-4">
+            <a
+              href="#"
+              class="block w-full bg-brand-600 text-white text-center py-3 rounded-xl font-bold"
+              >Get Started</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="app-container">
+      <!-- ==================== HOME VIEW ==================== -->
+      <main id="view-home" class="view-section active">
+        <!-- Hero Section -->
+        <section class="relative pt-40 pb-32 overflow-hidden">
+          <!-- Animated Background -->
+          <div class="absolute inset-0 bg-grid-pattern opacity-[0.4]"></div>
+          <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[1000px] bg-aurora blur-3xl -z-10 opacity-80"
+          ></div>
+
+          <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+            <!-- Meta Badge -->
+            <div
+              class="reveal inline-flex items-center justify-center bg-white/80 backdrop-blur-sm p-2 pr-6 rounded-full border border-slate-200 shadow-sm mb-10 hover:border-brand-300 hover:shadow-md transition-all cursor-default group"
+            >
+              <div
+                class="flex items-center border-r border-slate-200 pr-4 mr-4"
+              >
+                <div class="flex items-center gap-2 pl-2">
+                  <i class="fa-brands fa-meta text-2xl text-slate-900"></i>
+                  <span
+                    class="font-display font-bold text-lg text-slate-900 tracking-tight"
+                    >Meta</span
+                  >
+                </div>
+              </div>
+              <div class="text-left">
+                <div
+                  class="text-[10px] font-bold text-brand-600 uppercase tracking-wider"
+                >
+                  Official Partner
+                </div>
+                <div class="text-xs text-slate-500 font-medium">
+                  Meta Business Solution
+                </div>
+              </div>
+            </div>
+
+            <!-- Headline -->
+            <h1
+              class="reveal delay-50 text-5xl md:text-7xl lg:text-8xl font-display font-bold text-slate-900 tracking-tight leading-[1.1] mb-8"
+            >
+              AI Unified Business <br />
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-purple-600"
+                >Communication Platform</span
+              >
+            </h1>
+
+            <!-- Subheadline -->
+            <p
+              class="reveal delay-100 max-w-2xl mx-auto text-lg md:text-xl text-slate-500 font-light leading-relaxed mb-12"
+            >
+              Connect with customers across all channels through a single,
+              enterprise-grade platform. Automate conversations, scale sales,
+              and deliver 24/7 support.
+            </p>
+
+            <!-- CTAs -->
+            <div
+              class="reveal delay-150 flex flex-col sm:flex-row justify-center gap-4"
+            >
+              <button
+                class="px-8 py-4 rounded-full bg-white text-slate-700 border border-slate-200 font-semibold hover:bg-slate-50 hover:border-brand-200 transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 min-w-[180px]"
+              >
+                Schedule Demo
+              </button>
+              <button
+                class="btn-shine px-8 py-4 rounded-full bg-brand-600 text-white font-semibold hover:bg-brand-700 transition-all shadow-button hover:shadow-brand-600/40 flex items-center justify-center gap-2 min-w-[180px]"
+              >
+                Start Free Trial
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+
+            <!-- Floating Hero Cards -->
+            <div class="reveal delay-300 mt-24 relative mx-auto max-w-5xl">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- WhatsApp Card -->
+                <div
+                  class="animate-float bg-white p-6 rounded-2xl shadow-card hover:shadow-card-hover border border-slate-100 flex flex-col items-center justify-center gap-4 cursor-default group transition-all duration-500"
+                >
+                  <div
+                    class="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300 shadow-inner"
+                  >
+                    <i class="fa-brands fa-whatsapp text-3xl"></i>
+                  </div>
+                  <span class="text-sm font-bold text-slate-700"
+                    >WhatsApp API</span
+                  >
+                </div>
+
+                <!-- Messenger Card -->
+                <div
+                  class="animate-float-delayed bg-white p-6 rounded-2xl shadow-card hover:shadow-card-hover border border-slate-100 flex flex-col items-center justify-center gap-4 cursor-default group transition-all duration-500"
+                >
+                  <div
+                    class="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300 shadow-inner"
+                  >
+                    <i class="fa-brands fa-facebook-messenger text-3xl"></i>
+                  </div>
+                  <span class="text-sm font-bold text-slate-700"
+                    >Messenger</span
+                  >
+                </div>
+
+                <!-- Instagram Card -->
+                <div
+                  class="animate-float bg-white p-6 rounded-2xl shadow-card hover:shadow-card-hover border border-slate-100 flex flex-col items-center justify-center gap-4 cursor-default group transition-all duration-500"
+                >
+                  <div
+                    class="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300 shadow-inner"
+                  >
+                    <i class="fa-brands fa-instagram text-3xl"></i>
+                  </div>
+                  <span class="text-sm font-bold text-slate-700"
+                    >Instagram DM</span
+                  >
+                </div>
+
+                <!-- Web Widget Card -->
+                <div
+                  class="animate-float-delayed bg-white p-6 rounded-2xl shadow-card hover:shadow-card-hover border border-slate-100 flex flex-col items-center justify-center gap-4 cursor-default group transition-all duration-500"
+                >
+                  <div
+                    class="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300 shadow-inner"
+                  >
+                    <i class="fa-solid fa-code text-3xl"></i>
+                  </div>
+                  <span class="text-sm font-bold text-slate-700"
+                    >Web Widget</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Section (Deep Gradient) -->
+        <section
+          class="py-24 bg-gradient-to-r from-slate-900 to-brand-900 text-white relative overflow-hidden"
+        >
+          <div
+            class="absolute inset-0 bg-grid-pattern opacity-10 mix-blend-overlay"
+          ></div>
+          <div
+            class="max-w-7xl mx-auto px-6 lg:px-8 text-center md:text-left relative z-10"
+          >
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-12">
+              <div class="reveal">
+                <div
+                  class="text-4xl md:text-5xl font-display font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
+                >
+                  23k+
+                </div>
+                <div
+                  class="text-xs text-brand-200 font-bold uppercase tracking-widest"
+                >
+                  Active Customers
+                </div>
+              </div>
+              <div class="reveal delay-100">
+                <div
+                  class="text-4xl md:text-5xl font-display font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
+                >
+                  25M+
+                </div>
+                <div
+                  class="text-xs text-brand-200 font-bold uppercase tracking-widest"
+                >
+                  Messages / Day
+                </div>
+              </div>
+              <div class="reveal delay-200">
+                <div
+                  class="text-4xl md:text-5xl font-display font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
+                >
+                  100+
+                </div>
+                <div
+                  class="text-xs text-brand-200 font-bold uppercase tracking-widest"
+                >
+                  Govt. Bodies
+                </div>
+              </div>
+              <div class="reveal delay-300">
+                <div
+                  class="text-4xl md:text-5xl font-display font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
+                >
+                  500+
+                </div>
+                <div
+                  class="text-xs text-brand-200 font-bold uppercase tracking-widest"
+                >
+                  Global Partners
+                </div>
+              </div>
+              <div class="reveal delay-300">
+                <div
+                  class="text-4xl md:text-5xl font-display font-bold mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400"
+                >
+                  100k+
+                </div>
+                <div
+                  class="text-xs text-brand-200 font-bold uppercase tracking-widest"
+                >
+                  Bots Created
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Social Proof -->
+        <section class="border-b border-slate-200 py-16 bg-white">
+          <div class="max-w-7xl mx-auto px-6">
+            <p
+              class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-10"
+            >
+              Trusted by 23,000+ businesses globally
+            </p>
+            <div
+              class="flex flex-wrap justify-center gap-12 md:gap-24 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700"
+            >
+              <div
+                class="flex items-center gap-3 text-xl font-bold text-slate-900"
+              >
+                <i class="fa-brands fa-meta text-2xl"></i> Meta
+              </div>
+              <div
+                class="flex items-center gap-3 text-xl font-bold text-slate-900"
+              >
+                <i class="fa-brands fa-whatsapp text-2xl"></i> WhatsApp
+              </div>
+              <div
+                class="flex items-center gap-3 text-xl font-bold text-slate-900"
+              >
+                <i class="fa-brands fa-instagram text-2xl"></i> Instagram
+              </div>
+              <div
+                class="flex items-center gap-3 text-xl font-bold text-slate-900"
+              >
+                <i class="fa-brands fa-facebook-messenger text-2xl"></i>
+                Messenger
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Primary Features Grid (Cards with Lift) -->
+        <section id="features" class="py-32 bg-slate-50 relative">
+          <div
+            class="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none"
+          ></div>
+
+          <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mb-20 reveal">
+              <h2
+                class="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-6 tracking-tight"
+              >
+                Powerful Features for<br />Modern Communication.
+              </h2>
+              <p class="text-lg text-slate-500 font-light leading-relaxed">
+                Everything you need to automate and scale your business
+                communication infrastructure, engineered for reliability and
+                speed.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <!-- Feature Cards with Hover Lift -->
+              <div
+                class="reveal bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-brands fa-whatsapp text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  WhatsApp Business API
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Official Meta Business Partner integration with direct API
+                  access. Get verified with the Green Tick and scale without
+                  limits.
+                </p>
+              </div>
+
+              <div
+                class="reveal delay-100 bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-solid fa-code-branch text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  Visual Bot Builder
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Create intelligent chatbots with our drag-and-drop interface.
+                  No coding skills required to automate sales and support.
+                </p>
+              </div>
+
+              <div
+                class="reveal delay-200 bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-solid fa-inbox text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  Unified Team Inbox
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Centralized communication hub for seamless team collaboration.
+                  Manage WhatsApp, Facebook & Instagram from one platform.
+                </p>
+              </div>
+
+              <div
+                class="reveal bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-regular fa-credit-card text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  Native Payments
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Integrated payment processing for WhatsApp transactions.
+                  Collect payments directly in chat to boost conversion.
+                </p>
+              </div>
+
+              <div
+                class="reveal delay-100 bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-solid fa-bolt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  Automation Builder
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Create custom workflows with 1000+ integrations. Connect with
+                  your existing systems seamlessly.
+                </p>
+              </div>
+
+              <div
+                class="reveal delay-200 bg-white p-10 rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-500 group"
+              >
+                <div
+                  class="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-6 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300"
+                >
+                  <i class="fa-solid fa-rss text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                  Bulk Messaging
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Send personalized broadcast messages to your customers at
+                  scale. Reach thousands instantly with high throughput.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Solutions Bento Grid (Clean) -->
+        <section id="solutions" class="py-32 bg-white">
+          <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="mb-20 text-center max-w-2xl mx-auto reveal">
+              <h2 class="text-3xl font-display font-bold text-slate-900 mb-4">
+                Business Solutions
+              </h2>
+              <p class="text-slate-500">
+                Discover how Com.bot can transform your business communication
+                infrastructure.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <!-- Bulk Messaging -->
+              <div
+                class="reveal bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-regular fa-comment-dots text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Bulk Messaging
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Send personalized messages to your customers at scale
+                </p>
+              </div>
+
+              <!-- Order Updates -->
+              <div
+                class="reveal delay-100 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-solid fa-bag-shopping text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Order Updates
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Automated order and delivery status notifications
+                </p>
+              </div>
+
+              <!-- Customer Support -->
+              <div
+                class="reveal delay-200 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-solid fa-headset text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Customer Support
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Provide seamless support through unified inbox
+                </p>
+              </div>
+
+              <!-- Smart Chatbots -->
+              <div
+                class="reveal delay-300 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-solid fa-robot text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Smart Chatbots
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  AI-powered bots for automated customer interactions
+                </p>
+              </div>
+
+              <!-- Notifications -->
+              <div
+                class="reveal bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-regular fa-bell text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Notifications
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Instant alerts and reminders for your customers
+                </p>
+              </div>
+
+              <!-- Payment Collection -->
+              <div
+                class="reveal delay-100 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-regular fa-credit-card text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Payment Collection
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Streamlined payment reminders and collection
+                </p>
+              </div>
+
+              <!-- External Integration -->
+              <div
+                class="reveal delay-200 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-solid fa-database text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  External Integration
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Connect with your existing systems seamlessly
+                </p>
+              </div>
+
+              <!-- Team Collaboration -->
+              <div
+                class="reveal delay-300 bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-brand-200 hover:bg-white hover:shadow-card hover:-translate-y-1 transition-all duration-300 group cursor-default"
+              >
+                <div
+                  class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-slate-900 mb-6 shadow-sm group-hover:bg-slate-900 group-hover:text-white transition-colors"
+                >
+                  <i class="fa-solid fa-users text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                  Team Collaboration
+                </h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                  Multi-agent support with role-based access
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Transform Business / Contact Section (Beautiful Gradient) -->
+        <section class="py-24 bg-white border-t border-slate-100" id="contact">
+          <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+              <!-- Left Content -->
+              <div class="lg:w-1/2 reveal">
+                <h2
+                  class="text-4xl font-display font-bold text-slate-900 mb-6 leading-tight"
+                >
+                  Ready to Transform Your Business Communication?
+                </h2>
+                <p
+                  class="text-lg text-slate-500 mb-12 leading-relaxed font-light"
+                >
+                  Join thousands of businesses already growing with Com.bot's
+                  intelligent automation platform.
+                </p>
+
+                <div class="space-y-8">
+                  <div class="flex gap-4 group">
+                    <div
+                      class="w-12 h-12 rounded-xl bg-white border border-slate-200 flex-shrink-0 flex items-center justify-center text-brand-600 shadow-sm group-hover:border-brand-600 group-hover:bg-brand-50 transition-colors"
+                    >
+                      <i class="fa-brands fa-whatsapp text-xl"></i>
+                    </div>
+                    <div>
+                      <h4
+                        class="text-lg font-bold text-slate-900 mb-1 group-hover:text-brand-600 transition-colors"
+                      >
+                        Official Meta Partner
+                      </h4>
+                      <p class="text-slate-500 text-sm">
+                        Direct integration with WhatsApp Business API
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-4 group">
+                    <div
+                      class="w-12 h-12 rounded-xl bg-white border border-slate-200 flex-shrink-0 flex items-center justify-center text-brand-600 shadow-sm group-hover:border-brand-600 group-hover:bg-brand-50 transition-colors"
+                    >
+                      <i class="fa-solid fa-shield-halved text-xl"></i>
+                    </div>
+                    <div>
+                      <h4
+                        class="text-lg font-bold text-slate-900 mb-1 group-hover:text-brand-600 transition-colors"
+                      >
+                        Enterprise Security
+                      </h4>
+                      <p class="text-slate-500 text-sm">
+                        Your data is protected with industry-leading security
+                        measures
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-4 group">
+                    <div
+                      class="w-12 h-12 rounded-xl bg-white border border-slate-200 flex-shrink-0 flex items-center justify-center text-brand-600 shadow-sm group-hover:border-brand-600 group-hover:bg-brand-50 transition-colors"
+                    >
+                      <i class="fa-solid fa-bolt text-xl"></i>
+                    </div>
+                    <div>
+                      <h4
+                        class="text-lg font-bold text-slate-900 mb-1 group-hover:text-brand-600 transition-colors"
+                      >
+                        Quick Setup & Integration
+                      </h4>
+                      <p class="text-slate-500 text-sm">
+                        Get started in minutes with our guided setup process
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Form -->
+              <div class="lg:w-1/2 w-full reveal delay-200">
+                <div
+                  class="bg-gradient-to-br from-brand-600 to-brand-800 rounded-3xl p-8 md:p-10 shadow-2xl text-white border border-brand-500 relative overflow-hidden"
+                >
+                  <div
+                    class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full translate-x-1/3 -translate-y-1/3 blur-2xl"
+                  ></div>
+
+                  <h3 class="text-2xl font-bold mb-2 relative z-10">
+                    Get Started Today
+                  </h3>
+                  <p class="text-brand-100 text-sm mb-8 relative z-10">
+                    See how Com.bot can help your business grow with a
+                    personalized demo.
+                  </p>
+
+                  <form class="space-y-4 relative z-10">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Your Name"
+                        class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-200 focus:outline-none focus:bg-white/20 focus:border-white/50 transition-all text-sm backdrop-blur-sm"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        placeholder="Business Email"
+                        class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-200 focus:outline-none focus:bg-white/20 focus:border-white/50 transition-all text-sm backdrop-blur-sm"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="tel"
+                        placeholder="Phone Number"
+                        class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-200 focus:outline-none focus:bg-white/20 focus:border-white/50 transition-all text-sm backdrop-blur-sm"
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        rows="3"
+                        placeholder="Tell us about your requirements..."
+                        class="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-200 focus:outline-none focus:bg-white/20 focus:border-white/50 transition-all text-sm resize-none backdrop-blur-sm"
+                      ></textarea>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-shine w-full py-3.5 bg-white text-brand-900 font-bold rounded-xl hover:bg-brand-50 transition-colors flex items-center justify-center gap-2 mt-4 shadow-lg"
+                    >
+                      Send Message
+                      <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ==================== PRICING VIEW ==================== -->
+      <main id="view-pricing" class="view-section">
+        <section class="relative pt-40 pb-32 overflow-hidden bg-slate-25">
+          <div class="absolute inset-0 bg-grid-pattern opacity-30"></div>
+          <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+              <h1
+                class="text-4xl md:text-5xl font-display font-bold text-slate-900 mb-6"
+              >
+                Simple, Transparent Pricing
+              </h1>
+              <p class="text-xl text-slate-500 font-light">
+                Choose the perfect plan for your business. Scale as you grow.
+              </p>
+            </div>
+
+            <!-- Plans Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+              <!-- Silver Plan -->
+              <div
+                class="bg-white rounded-2xl p-8 border border-slate-200 shadow-card hover:shadow-elevation hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              >
+                <div class="mb-6">
+                  <h3 class="text-2xl font-display font-bold text-slate-900">
+                    Silver Plan
+                  </h3>
+                  <div class="mt-4 flex items-baseline text-slate-900">
+                    <span class="text-4xl font-bold tracking-tight">$149</span>
+                    <span class="ml-1 text-xl text-slate-500">/quarter</span>
+                  </div>
+                </div>
+                <button
+                  class="w-full py-3 rounded-xl border border-slate-900 text-slate-900 font-semibold hover:bg-slate-50 transition-colors mb-8"
+                >
+                  Sign Up Now
+                </button>
+                <ul class="space-y-4 text-sm text-slate-600 flex-1">
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 1
+                    WhatsApp API Channel
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 1
+                    Million Contacts
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 5
+                    Team Members
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 1
+                    WhatsApp Store
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> Do
+                    It Yourself Bot Builder
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                    Support in 12 Hours
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Gold Plan (Recommended) -->
+              <div
+                class="bg-brand-600 rounded-2xl p-8 border border-brand-500 shadow-elevation relative flex flex-col transform md:-translate-y-4"
+              >
+                <div
+                  class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-brand-600 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm border border-brand-100"
+                >
+                  Recommended
+                </div>
+                <div class="mb-6">
+                  <h3 class="text-2xl font-display font-bold text-white">
+                    Gold Plan
+                  </h3>
+                  <div class="mt-4 flex items-baseline text-white">
+                    <span class="text-4xl font-bold tracking-tight">$349</span>
+                    <span class="ml-1 text-xl text-brand-200">/quarter</span>
+                  </div>
+                </div>
+                <button
+                  class="w-full py-3 rounded-xl bg-white text-brand-600 font-bold hover:bg-brand-50 transition-colors mb-8 shadow-lg"
+                >
+                  Sign Up Now
+                </button>
+                <ul class="space-y-4 text-sm text-brand-100 flex-1">
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> 1
+                    WhatsApp API Channel
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> 1
+                    Million Contacts
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> 10 Team
+                    Members
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> 10,000
+                    Products Limit
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> 30
+                    Blocks Bot Building
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-white mt-0.5"></i> Support
+                    in 6 Hours
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Platinum Plan -->
+              <div
+                class="bg-white rounded-2xl p-8 border border-slate-200 shadow-card hover:shadow-elevation hover:-translate-y-1 transition-all duration-300 flex flex-col"
+              >
+                <div class="mb-6">
+                  <h3 class="text-2xl font-display font-bold text-slate-900">
+                    Platinum V1
+                  </h3>
+                  <div class="mt-4 flex items-baseline text-slate-900">
+                    <span class="text-4xl font-bold tracking-tight">$2500</span>
+                    <span class="ml-1 text-xl text-slate-500">/quarter</span>
+                  </div>
+                </div>
+                <button
+                  class="w-full py-3 rounded-xl border border-slate-900 text-slate-900 font-semibold hover:bg-slate-50 transition-colors mb-8"
+                >
+                  Sign Up Now
+                </button>
+                <ul class="space-y-4 text-sm text-slate-600 flex-1">
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 3
+                    WhatsApp API Channels
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 5
+                    Million Contacts
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 25
+                    Team Members
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 3
+                    WhatsApp Stores
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i> 150
+                    Blocks Bot Building
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                    Support in 2 Hours
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Add-ons Grid -->
+            <div class="mb-20">
+              <h2
+                class="text-2xl font-display font-bold text-slate-900 mb-8 text-center"
+              >
+                Customize with Add-ons
+              </h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div
+                  class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:border-brand-200 transition-colors"
+                >
+                  <h4 class="font-bold text-slate-900">Team Member</h4>
+                  <p class="text-sm text-slate-500 mb-2">Additional access</p>
+                  <div class="text-brand-600 font-bold">$10/mo</div>
+                </div>
+                <div
+                  class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:border-brand-200 transition-colors"
+                >
+                  <h4 class="font-bold text-slate-900">Social Channel</h4>
+                  <p class="text-sm text-slate-500 mb-2">Extra channel</p>
+                  <div class="text-brand-600 font-bold">$10/mo</div>
+                </div>
+                <div
+                  class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:border-brand-200 transition-colors"
+                >
+                  <h4 class="font-bold text-slate-900">Bot Triggers</h4>
+                  <p class="text-sm text-slate-500 mb-2">25,000 triggers</p>
+                  <div class="text-brand-600 font-bold">$10/mo</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full Comparison Table -->
+            <div
+              class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-card"
+            >
+              <table class="w-full text-left text-sm text-slate-600">
+                <thead
+                  class="bg-slate-50 text-slate-900 font-display font-bold"
+                >
+                  <tr>
+                    <th class="px-6 py-4">Features</th>
+                    <th class="px-6 py-4">Silver</th>
+                    <th class="px-6 py-4 text-brand-600">Gold</th>
+                    <th class="px-6 py-4">Platinum</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="bg-slate-50/50">
+                    <td
+                      colspan="4"
+                      class="px-6 py-2 font-bold text-xs uppercase tracking-wide text-slate-400"
+                    >
+                      CRM Features
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">WhatsApp API Channel</td>
+                    <td class="px-6 py-3">1</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">1</td>
+                    <td class="px-6 py-3">3</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">Contacts</td>
+                    <td class="px-6 py-3">1 Million</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">
+                      1 Million
+                    </td>
+                    <td class="px-6 py-3">5 Million</td>
+                  </tr>
+
+                  <tr class="bg-slate-50/50">
+                    <td
+                      colspan="4"
+                      class="px-6 py-2 font-bold text-xs uppercase tracking-wide text-slate-400"
+                    >
+                      Ecommerce
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">Products Limit</td>
+                    <td class="px-6 py-3">5000</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">
+                      10,000
+                    </td>
+                    <td class="px-6 py-3">20,000</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">Abandoned Carts</td>
+                    <td class="px-6 py-3">5000</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">
+                      10,000
+                    </td>
+                    <td class="px-6 py-3">20,000</td>
+                  </tr>
+
+                  <tr class="bg-slate-50/50">
+                    <td
+                      colspan="4"
+                      class="px-6 py-2 font-bold text-xs uppercase tracking-wide text-slate-400"
+                    >
+                      Automation
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">Bot Building</td>
+                    <td class="px-6 py-3">DIY</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">
+                      30 Blocks
+                    </td>
+                    <td class="px-6 py-3">150 Blocks</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-3">Triggers</td>
+                    <td class="px-6 py-3">1 Million</td>
+                    <td class="px-6 py-3 font-semibold text-brand-600">
+                      2 Million
+                    </td>
+                    <td class="px-6 py-3">10 Million</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-16 pb-12 border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- CTA Banner -->
+        <div
+          class="rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-10 md:p-16 text-center mb-20 relative overflow-hidden"
+        >
+          <div
+            class="absolute top-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-x-1/2 -translate-y-1/2"
+          ></div>
+          <div
+            class="absolute bottom-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full translate-x-1/2 translate-y-1/2"
+          ></div>
+
+          <h2
+            class="text-3xl md:text-4xl font-display font-bold text-white mb-4 relative z-10"
+          >
+            Ready to Transform Your Business?
+          </h2>
+          <p class="text-brand-100 text-lg mb-8 relative z-10">
+            Join 23,000+ businesses already growing with our platform
+          </p>
+          <button
+            class="px-8 py-3.5 bg-white text-brand-900 font-bold rounded-full hover:bg-brand-50 transition-colors shadow-lg relative z-10"
+          >
+            Get Started Now <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Footer Columns -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-slate-100 pb-12"
+        >
+          <!-- Col 1 -->
+          <div class="space-y-6">
+            <div class="flex items-center gap-2">
+              <img
+                src="logo.webp"
+                alt="Com.bot Logo"
+                class="h-8 w-auto"
+              />
+            </div>
+            <div
+              class="text-xs text-brand-600 font-bold uppercase tracking-wider"
+            >
+              AUTOMATING GROWTH
+            </div>
+            <p class="text-slate-500 text-sm">
+              Empowering your communication with intelligent automation
+            </p>
+
+            <div class="space-y-4 pt-2">
+              <div class="flex items-center gap-3 text-sm text-slate-600">
+                <i class="fa-solid fa-phone text-slate-400 w-5"></i>
+                +91 080 6987 1810
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-600">
+                <i class="fa-brands fa-whatsapp text-slate-400 w-5"></i>
+                WhatsApp Support
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-600">
+                <i class="fa-regular fa-envelope text-slate-400 w-5"></i>
+                sales@com.bot
+              </div>
+              <div class="flex items-start gap-3 text-sm text-slate-600">
+                <i class="fa-solid fa-location-dot text-slate-400 w-5"></i>
+                <span
+                  >501, Trinity Orion<br />Vesu Main Road<br />Surat - 395010,
+                  IN</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2 -->
+          <div>
+            <h4 class="font-bold text-slate-900 mb-6">Quick Links</h4>
+            <ul class="space-y-4">
+              <li>
+                <button
+                  onclick="navigateTo('home', 'features')"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                >
+                  Features
+                </button>
+              </li>
+              <li>
+                <button
+                  onclick="navigateTo('pricing')"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                >
+                  Pricing
+                </button>
+              </li>
+              <li>
+                <button
+                  onclick="navigateTo('home', 'contact')"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                >
+                  Contact
+                </button>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                  >Affiliate Program</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3 -->
+          <div>
+            <h4 class="font-bold text-slate-900 mb-6">Legal</h4>
+            <ul class="space-y-4">
+              <li>
+                <a
+                  href="#"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-slate-500 hover:text-brand-600 transition-colors text-sm"
+                  >Cancellation Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4 -->
+          <div>
+            <h4 class="font-bold text-slate-900 mb-6">Key Features</h4>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center gap-3 text-sm text-slate-500">
+                <i class="fa-solid fa-robot text-xs text-brand-600"></i> Visual
+                Bot Builder
+              </li>
+              <li class="flex items-center gap-3 text-sm text-slate-500">
+                <i class="fa-solid fa-globe text-xs text-brand-600"></i>
+                Multi-Channel Support
+              </li>
+              <li class="flex items-center gap-3 text-sm text-slate-500">
+                <i class="fa-solid fa-shield-halved text-xs text-brand-600"></i>
+                Enterprise Security
+              </li>
+            </ul>
+            <div
+              class="inline-flex items-center border border-slate-200 rounded p-1 px-2 gap-2 bg-slate-50"
+            >
+              <i class="fa-brands fa-meta text-lg text-slate-900"></i>
+              <div class="flex flex-col">
+                <span class="text-[10px] font-bold text-slate-900 leading-none"
+                  >Meta</span
+                >
+                <span class="text-[8px] text-slate-500 leading-none"
+                  >Business Partner</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-8 text-center text-sm text-slate-400">
+          &copy; 2025 Com.bot. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Reveal Animation Observer
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+        });
+      }, observerOptions);
+
+      // Navigation Logic
+      function navigateTo(viewId, sectionId = null) {
+        document
+          .querySelectorAll(".view-section")
+          .forEach((el) => el.classList.remove("active"));
+
+        const targetView = document.getElementById("view-" + viewId);
+        if (targetView) {
+          targetView.classList.add("active");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+
+          // Re-trigger animations for new view
+          setTimeout(() => {
+            document
+              .querySelectorAll("#view-" + viewId + " .reveal")
+              .forEach((el) => {
+                el.classList.remove("active");
+                observer.observe(el);
+              });
+          }, 100);
+        }
+
+        document.querySelectorAll(".nav-item").forEach((el) => {
+          el.classList.remove("bg-brand-600", "text-white");
+          el.classList.add("text-slate-600", "hover:bg-white");
+        });
+
+        const activeNav = document.getElementById("nav-" + viewId);
+        if (activeNav) {
+          activeNav.classList.remove("text-slate-600", "hover:bg-white");
+          activeNav.classList.add("bg-brand-600", "text-white");
+        }
+
+        if (sectionId) {
+          setTimeout(() => {
+            const section = document.getElementById(sectionId);
+            if (section) section.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
+      }
+
+      function toggleMobileMenu() {
+        document.getElementById("mobile-menu").classList.toggle("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .querySelectorAll(".reveal")
+          .forEach((el) => observer.observe(el));
+        navigateTo("home");
+      });
+    </script>
+  </body>
+</html>
