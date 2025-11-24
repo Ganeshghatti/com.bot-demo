@@ -146,7 +146,7 @@
       .reveal {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
       .reveal.active {
         opacity: 1;
@@ -154,8 +154,14 @@
       }
 
       /* Staggered Delays */
+      .delay-50 {
+        transition-delay: 50ms;
+      }
       .delay-100 {
         transition-delay: 100ms;
+      }
+      .delay-150 {
+        transition-delay: 150ms;
       }
       .delay-200 {
         transition-delay: 200ms;
@@ -244,12 +250,14 @@
             <button
               onclick="navigateTo('home', 'features')"
               class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+              id="nav-features"
             >
               Features
             </button>
             <button
               onclick="navigateTo('home', 'solutions')"
               class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+              id="nav-solutions"
             >
               Use Cases
             </button>
@@ -263,6 +271,7 @@
             <button
               onclick="navigateTo('home', 'contact')"
               class="nav-item px-5 py-2 rounded-full text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-white transition-all"
+              id="nav-contact"
             >
               Contact
             </button>
@@ -1491,31 +1500,67 @@
 
           // Re-trigger animations for new view
           setTimeout(() => {
-            document
-              .querySelectorAll("#view-" + viewId + " .reveal")
-              .forEach((el) => {
+            if (viewId === 'home') {
+              // For home view, immediately activate hero section elements
+              const heroSection = targetView.querySelector('section:first-of-type');
+              if (heroSection) {
+                heroSection.querySelectorAll(".reveal").forEach((el) => {
+                  el.classList.remove("active");
+                  // Force reflow then activate
+                  void el.offsetWidth;
+                  el.classList.add("active");
+                });
+              }
+              
+              // Observe other reveal elements in home view for scroll-based animations
+              targetView.querySelectorAll(".reveal:not(.active)").forEach((el) => {
                 el.classList.remove("active");
                 observer.observe(el);
               });
+            } else {
+              // For other views, observe all reveal elements
+              targetView.querySelectorAll(".reveal").forEach((el) => {
+                el.classList.remove("active");
+                observer.observe(el);
+              });
+            }
           }, 100);
         }
 
+        // Reset all nav items to default state
         document.querySelectorAll(".nav-item").forEach((el) => {
-          el.classList.remove("bg-brand-600", "text-white");
+          el.classList.remove("bg-brand-600", "text-white", "hover:text-brand-600");
           el.classList.add("text-slate-600", "hover:bg-white");
         });
 
-        const activeNav = document.getElementById("nav-" + viewId);
+        // Determine which nav item to highlight
+        let navItemId = null;
+        if (sectionId) {
+          // If navigating to a section, highlight that section's nav button
+          navItemId = "nav-" + sectionId;
+        } else {
+          // Otherwise, highlight the view's nav button
+          navItemId = "nav-" + viewId;
+        }
+
+        const activeNav = document.getElementById(navItemId);
         if (activeNav) {
-          activeNav.classList.remove("text-slate-600", "hover:bg-white");
+          activeNav.classList.remove("text-slate-600", "hover:bg-white", "hover:text-brand-600");
           activeNav.classList.add("bg-brand-600", "text-white");
         }
 
         if (sectionId) {
           setTimeout(() => {
             const section = document.getElementById(sectionId);
-            if (section) section.scrollIntoView({ behavior: "smooth" });
+            if (section) {
+              section.scrollIntoView({ behavior: "smooth" });
+              // Update nav highlighting after scroll completes
+              setTimeout(updateActiveNav, 500);
+            }
           }, 200);
+        } else {
+          // Update nav highlighting after view change
+          setTimeout(updateActiveNav, 100);
         }
       }
 
@@ -1523,11 +1568,85 @@
         document.getElementById("mobile-menu").classList.toggle("hidden");
       }
 
+      // Update nav highlighting based on scroll position
+      function updateActiveNav() {
+        const sections = ['home', 'features', 'solutions', 'contact'];
+        const navItems = {
+          'home': 'nav-home',
+          'features': 'nav-features',
+          'solutions': 'nav-solutions',
+          'contact': 'nav-contact',
+          'pricing': 'nav-pricing'
+        };
+
+        // Check which section is currently in view
+        let currentSection = null;
+        const scrollPosition = window.scrollY + 150; // Offset for navbar
+
+        sections.forEach(sectionId => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+              currentSection = sectionId;
+            }
+          }
+        });
+
+        // Check if we're on pricing page
+        const pricingView = document.getElementById('view-pricing');
+        if (pricingView && pricingView.classList.contains('active')) {
+          currentSection = 'pricing';
+        }
+
+        // Update nav highlighting
+        document.querySelectorAll(".nav-item").forEach((el) => {
+          el.classList.remove("bg-brand-600", "text-white", "hover:text-brand-600");
+          el.classList.add("text-slate-600", "hover:bg-white");
+        });
+
+        if (currentSection && navItems[currentSection]) {
+          const activeNav = document.getElementById(navItems[currentSection]);
+          if (activeNav) {
+            activeNav.classList.remove("text-slate-600", "hover:bg-white", "hover:text-brand-600");
+            activeNav.classList.add("bg-brand-600", "text-white");
+          }
+        } else if (!currentSection) {
+          // Default to home if no section is in view
+          const homeNav = document.getElementById('nav-home');
+          if (homeNav) {
+            homeNav.classList.remove("text-slate-600", "hover:bg-white", "hover:text-brand-600");
+            homeNav.classList.add("bg-brand-600", "text-white");
+          }
+        }
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
+        // Activate hero section elements immediately (no wait for intersection)
+        const heroSection = document.querySelector('#view-home section:first-of-type');
+        if (heroSection) {
+          heroSection.querySelectorAll(".reveal").forEach((el) => {
+            el.classList.add("active");
+          });
+        }
+        
+        // Observe other reveal elements for scroll-based animations
         document
-          .querySelectorAll(".reveal")
+          .querySelectorAll(".reveal:not(.active)")
           .forEach((el) => observer.observe(el));
+        
         navigateTo("home");
+        
+        // Update nav on scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(updateActiveNav, 100);
+        });
+        
+        // Initial update
+        updateActiveNav();
       });
     </script>
   </body>
